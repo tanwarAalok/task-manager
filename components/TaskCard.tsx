@@ -11,6 +11,7 @@ type Props =  {
 }
 
 export default function TaskCard ({ task, index, innerRef, draggableProps, dragHandleProps }: Props){
+
     return (
         <div className="p-4 bg-[#F9F9F9] rounded-lg border-[1px]" ref={innerRef} {...draggableProps} {...dragHandleProps}>
             <h3 className="text-lg font-semibold">{task.title}</h3>

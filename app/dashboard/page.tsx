@@ -103,7 +103,7 @@ export default function Dashboard(){
         <DashboardLayout>
             <div className="space-y-6">
                 <header className="flex justify-between items-center">
-                    <h1 className="text-2xl font-bold">Good Morning, User</h1>
+                    <h1 className="text-5xl font-bold">Good Morning, User</h1>
                     <button
                         className="flex items-center">
                         Help & feedback
@@ -129,29 +129,29 @@ export default function Dashboard(){
                         <input
                             type="text"
                             placeholder="Search"
-                            className="w-full px-4 py-2 border rounded pl-6"
+                            className="w-full px-4 py-2 border border-[#E9E9E9] rounded-lg pl-6"
                         />
                         <img src="/searchIcon.svg" alt="searchIcon" className="absolute right-3 top-1/2 transform -translate-y-1/2"/>
                     </div>
                     <div className="space-x-4 flex">
-                        <button className="flex items-center px-4 py-2 text-[#797979]">
+                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Calendar View
                             <img src="/calendarIcon.svg" alt="calendarIcon"  className="ml-2"/>
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#797979]">
+                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Automation
                             <img src="/automationIcon.svg" alt="automationIcon"  className="ml-2"/>
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#797979]">
+                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Filter
                             <img src="/filterIcon.svg" alt="filterIcon"  className="ml-2"/>
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#797979]">
+                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Share
                             <img src="/shareIcon.svg" alt="shareIcon"  className="ml-2"/>
                         </button>
 
-                        <button className="flex items-center px-4 py-2 bg-gradient-btn-blue text-white rounded-[8px]">
+                        <button className="flex items-center px-4 py-2 bg-gradient-btn-blue text-white rounded-lg">
                             Create New
                             <img src="/addIcon.svg" alt="addIcon"  className="ml-2"/>
                         </button>
@@ -164,6 +164,7 @@ export default function Dashboard(){
                     underReview={underReviewTasks}
                     finished={finishedTasks}
                 />
+
             </div>
         </DashboardLayout>
     )
