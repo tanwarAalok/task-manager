@@ -1,5 +1,9 @@
+type SidebarProps = {
+    onAddNewTask: () => void;
+};
 
-export default function Sidebar() {
+
+export default function Sidebar({ onAddNewTask }: SidebarProps) {
     return (
         <div className="h-screen bg-white border-l-[1px] border-[#DEDEDE] w-96 flex flex-col p-4">
             {/* Avatar and Name */}
@@ -45,7 +49,7 @@ export default function Sidebar() {
             </div>
 
             {/* Add New Task Button */}
-            <button className="flex items-center justify-center px-4 py-2 bg-gradient-btn-blue text-white rounded-lg">
+            <button onClick={onAddNewTask} className="flex items-center justify-center px-4 py-2 bg-gradient-btn-blue text-white rounded-lg">
                 Create New Task
                 <img src="/addIcon.svg" alt="addIcon" className="ml-2"/>
             </button>
