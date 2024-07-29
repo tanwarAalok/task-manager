@@ -38,7 +38,7 @@ export default function CustomDropdown({
                     </span>
                 </div>
                 <span className={`cursor-pointer ${
-                    selectedOption.value ? 'text-primary' : 'text-[#C1BDBD]'
+                    value ? 'text-primary' : 'text-[#C1BDBD]'
                 }`} onClick={() => setIsOpen(!isOpen)}>
                     {selectedOption.label}
                 </span>

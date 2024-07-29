@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Droppable,
     Draggable,
@@ -7,6 +9,8 @@ import {
 } from "@hello-pangea/dnd";
 import TaskCard from './TaskCard';
 import {Task, TypedColumns} from "@/types";
+import {useDispatch} from "react-redux";
+import {openNewTaskModal} from "@/redux/taskSlice";
 
 type Props = {
     id: TypedColumns
@@ -21,6 +25,12 @@ const idToTitle: {[key in TypedColumns]: string} = {
 }
 
 export default function TaskColumn({id, tasks}: Props) {
+
+    const dispatch = useDispatch();
+
+    const handleOpenModal = () => {
+        dispatch(openNewTaskModal(id))
+    }
 
     return (
             <div>
@@ -47,7 +57,7 @@ export default function TaskColumn({id, tasks}: Props) {
                                 </Draggable>
                             ))}
                             {provided.placeholder}
-                            <button
+                            <button onClick={handleOpenModal}
                                 className="flex justify-between items-center mt-6 p-2 bg-gradient-btn-black text-[#E3E1E1] text-base rounded-lg w-full">
                                 Add New
                                 <img src="/addIcon2.svg" alt="addIcon2"/>

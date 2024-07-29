@@ -1,9 +1,17 @@
+import {logout} from "@/redux/authSlice";
+import {useDispatch} from "react-redux";
+
 type SidebarProps = {
     onAddNewTask: () => void;
 };
 
 
 export default function Sidebar({ onAddNewTask }: SidebarProps) {
+    const dispatch = useDispatch();
+    const handleLogout = () => {
+        dispatch(logout())
+    }
+
     return (
         <div className="h-screen bg-white border-l-[1px] border-[#DEDEDE] w-96 flex flex-col p-4">
             {/* Avatar and Name */}
@@ -14,12 +22,12 @@ export default function Sidebar({ onAddNewTask }: SidebarProps) {
 
             {/*/!* Icons and Logout Button *!/*/}
             <div className="flex justify-between mb-8 items-center">
-                <div className="flex space-x-6">
+                <div className="flex space-x-4">
                     <img src="/bellIcon.svg" alt="bellIcon" className="w-6 h-6 text-gray-600" />
                     <img src="/sunIcon.svg" alt="sunIcon" className="w-6 h-6 text-gray-600" />
                     <img src="/rightArrow.svg" alt="rightArrow" className="w-6 h-6 text-gray-600" />
                 </div>
-                <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
+                <button onClick={handleLogout} className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                     Logout
                 </button>
             </div>

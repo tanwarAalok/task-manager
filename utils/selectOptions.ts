@@ -1,8 +1,8 @@
 export const statusOptions = [
     { label: 'Not selected', value: null },
     { label: 'To Do', value: 'todo' },
-    { label: 'In Progress', value: 'inProgress' },
-    { label: 'Under Review', value: 'underReview' },
+    { label: 'In Progress', value: 'inprogress' },
+    { label: 'Under Review', value: 'underreview' },
     { label: 'Finished', value: 'finished' },
 ];
 

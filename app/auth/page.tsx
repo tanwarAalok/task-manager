@@ -15,7 +15,7 @@ export default function AuthPage() {
                     Welcome to <span className="text-[#4534ac]">Workflo!</span>
                 </h1>
 
-                {isLogin ? <Login/> : <Register/>}
+                {isLogin ? <Login/> : <Register setIsLogin={setIsLogin} />}
 
                 <p className="mt-4 text-center text-sm text-gray-600">
                     {isLogin ? "Don't have an account? Create a" : "Already have an account?"}

@@ -1,55 +1,33 @@
 'use client'
 
 import TaskColumn from "@/components/TaskColumn";
-import {Board, Task, TypedColumns} from "@/types";
+import {Board, TypedColumns} from "@/types";
 import {DragDropContext, DropResult} from "@hello-pangea/dnd";
-import {useState} from "react";
-import {mockBoard} from "@/data/mockData";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/redux/store";
+import {moveTask} from "@/redux/boardSlice";
 
 export default function TaskDraggableZone() {
 
-    const [tasksMap, setTasksMap] = useState<Board>(mockBoard);
+    const dispatch: AppDispatch = useDispatch();
+    const tasksMap: Board = useSelector((state: RootState) => state.board);
+
+    console.log(tasksMap)
 
     const handleOnDragEnd = (result: DropResult) => {
-        const {destination, source} = result;
-
+        const { destination, source } = result;
         if (!destination) return;
 
-        const sourceColumn = tasksMap.columns.get(source.droppableId as TypedColumns);
-        const destinationColumn = tasksMap.columns.get(destination.droppableId as TypedColumns);
-
-        if (!sourceColumn || !destinationColumn) return;
-
-        const sourceTasks = [...sourceColumn.tasks];
-        const [movedTask] = sourceTasks.splice(source.index, 1);
-
-        if (source.droppableId === destination.droppableId) {
-            sourceTasks.splice(destination.index, 0, movedTask);
-            setTasksMap({
-                ...tasksMap,
-                columns: new Map(tasksMap.columns.set(source.droppableId as TypedColumns, {
-                    ...sourceColumn,
-                    tasks: sourceTasks
-                }))
-            });
-        } else {
-            const destinationTasks = [...destinationColumn.tasks];
-            destinationTasks.splice(destination.index, 0, movedTask);
-
-            setTasksMap({
-                ...tasksMap,
-                columns: new Map(tasksMap.columns
-                    .set(source.droppableId as TypedColumns, {
-                        ...sourceColumn,
-                        tasks: sourceTasks
-                    })
-                    .set(destination.droppableId as TypedColumns, {
-                        ...destinationColumn,
-                        tasks: destinationTasks
-                    })
-                )
-            });
-        }
+        dispatch(moveTask({
+            source: {
+                droppableId: source.droppableId as TypedColumns,
+                index: source.index,
+            },
+            destination: {
+                droppableId: destination.droppableId as TypedColumns,
+                index: destination.index,
+            }
+        }));
     };
 
     return (

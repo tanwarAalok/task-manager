@@ -1,10 +1,19 @@
+'use client'
+
 import DashboardLayout from "@/components/DashboardLayout";
-import {topCardsData} from "@/data/dashboardTopCardData";
+import {topCardsData} from "@/utils/dashboardTopCardData";
 import DashboardTopCards from "@/components/DashboardTopCards";
 import TaskDraggableZone from "@/components/TaskDraggableZone";
+import {useDispatch} from "react-redux";
+import {openNewTaskModal} from "@/redux/taskSlice";
 
 
 export default function Dashboard(){
+    const dispatch = useDispatch();
+
+    const handleOpenModal = () => {
+        dispatch(openNewTaskModal(null))
+    }
 
     return (
         <DashboardLayout>
@@ -58,7 +67,7 @@ export default function Dashboard(){
                             <img src="/shareIcon.svg" alt="shareIcon"  className="ml-2"/>
                         </button>
 
-                        <button className="flex items-center px-4 py-2 bg-gradient-btn-blue text-white rounded-lg">
+                        <button onClick={handleOpenModal} className="flex items-center px-4 py-2 bg-gradient-btn-blue text-white rounded-lg">
                             Create New
                             <img src="/addIcon.svg" alt="addIcon"  className="ml-2"/>
                         </button>

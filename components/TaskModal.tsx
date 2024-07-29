@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import CustomDropdown from "@/components/CustomDropdown";
-import {priorityOptions, statusOptions} from "@/data/selectOptions";
+import {priorityOptions, statusOptions} from "@/utils/selectOptions";
 import CustomTextInput from "@/components/CustomTextInput";
 import CustomDatePicker from "@/components/CustomDatePicker";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
 
 type TaskModalProps = {
     onClose: () => void;
@@ -12,25 +14,28 @@ type TaskModalProps = {
 };
 
 export default function TaskModal({ onClose, onSave }: TaskModalProps) {
-    const [title, setTitle] = useState('');
-    const [status, setStatus] = useState('');
-    const [priority, setPriority] = useState('');
-    const [deadline, setDeadline] = useState('');
-    const [description, setDescription] = useState('');
-    const [customProperties, setCustomProperties] = useState<string[]>([]);
+    const dispatch = useDispatch();
+    const { currentTask, isModalOpen } = useSelector((state: RootState) => state.task);
 
+    // State for local management
+    const [title, setTitle] = useState('');
+    const [status, setStatus] = useState<string>('');
+    const [priority, setPriority] = useState<string>('');
+    const [deadline, setDeadline] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (currentTask) {
+            setTitle(currentTask.title || '');
+            setStatus(currentTask.status || '');
+            setPriority(currentTask.priority || '');
+            setDeadline(currentTask.deadline ? currentTask.deadline.toISOString().split('T')[0] : '');
+            setDescription(currentTask.description || '');
+        }
+    }, [currentTask]);
 
-    const handleAddCustomProperty = () => {
-        setCustomProperties([...customProperties, '']);
-    };
 
-    const handleCustomPropertyChange = (index: number, value: string) => {
-        const newProperties = [...customProperties];
-        newProperties[index] = value;
-        setCustomProperties(newProperties);
-    };
 
     const handleSave = () => {
         const newTask = {
@@ -39,7 +44,6 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
             priority,
             deadline,
             description,
-            customProperties
         };
         onSave(newTask);
     };
@@ -59,11 +63,11 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
                     </div>
                     <div className="flex space-x-4">
                         <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
-                            Share
+                            Save
                             <img src="/shareIcon.svg" alt="shareIcon" className="ml-2"/>
                         </button>
                         <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
-                            Favorite
+                            Delete
                             <img src="/favoriteIcon.svg" alt="favoriteIcon" className="ml-2"/>
                         </button>
                     </div>

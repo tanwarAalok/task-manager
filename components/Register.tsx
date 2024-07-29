@@ -1,21 +1,38 @@
 'use client'
 
-import {FormEvent, useState} from "react";
+import React, {FormEvent, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
+import {loginUser, signupUser} from "@/redux/authSlice";
 
-export default function Register(){
+type Props = {
+    setIsLogin: (value: boolean) => void;
+}
+
+export default function Register({setIsLogin}: Props){
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state: RootState) => state.auth);
     const [fullname, setFullname] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const isFormValid = fullname.trim() !== '' && email.trim() !== '' && password.trim() !== '';
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log('Login submitted', { email, password });
+        try {
+            // @ts-ignore
+            await dispatch(signupUser({ fullname, email, password }));
+            alert('User created successfully!');
+            setIsLogin(true)
+        } catch (err) {
+            console.error('Failed to login:', err);
+        }
+
     };
 
     return (
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
             <input
                 type="text"
                 name="fullname"
@@ -49,7 +66,7 @@ export default function Register(){
 
             <button
                 type="submit"
-                disabled={!isFormValid}
+                disabled={!isFormValid || loading}
                 className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white 
                         ${isFormValid
                     ? 'bg-gradient-btn-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-btn-dark'

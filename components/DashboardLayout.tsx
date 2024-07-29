@@ -3,38 +3,37 @@
 import {ReactNode, useState} from 'react';
 import Sidebar from "@/components/Sidebar";
 import TaskModal from "@/components/TaskModal";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
+import {closeTaskModal, openNewTaskModal} from "@/redux/taskSlice";
 
 interface DashboardLayoutProps {
     children: ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-
-    const [showModal, setShowModal] = useState(false);
-
-    const handleAddNewTask = () => {
-        setShowModal(true);
-    };
+    const dispatch = useDispatch();
+    const {isModalOpen} = useSelector((state: RootState) => state.task);
 
     const handleCloseModal = () => {
-        setShowModal(false);
-    };
+        dispatch(closeTaskModal())
+    }
 
-    const handleSaveTask = (task: any) => {
-        console.log('New Task Saved', task);
-        setShowModal(false);
-    };
+    const handleOpenModal = () => {
+        dispatch(openNewTaskModal(null))
+    }
 
+    const handleSaveTask = () => {}
 
     return (
         <div className="flex">
-            <Sidebar onAddNewTask={handleAddNewTask}/>
+            <Sidebar onAddNewTask={handleOpenModal}/>
             <main className="flex-grow bg-[#F9F9F9] p-8">
                 {children}
             </main>
 
             {/* Task Modal */}
-            {showModal && (
+            {isModalOpen && (
                 <TaskModal onClose={handleCloseModal} onSave={handleSaveTask} />
             )}
         </div>

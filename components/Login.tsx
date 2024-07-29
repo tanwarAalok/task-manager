@@ -2,8 +2,13 @@
 
 import {FormEvent, useState} from "react";
 import { useRouter } from 'next/navigation';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
+import {loginUser} from "@/redux/authSlice";
 
 export default function Login(){
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state: RootState) => state.auth);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
@@ -11,10 +16,15 @@ export default function Login(){
 
     const isFormValid = email.trim() !== '' && password.trim() !== '';
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Login submitted', { email, password });
-        router.push('/dashboard')
+        try {
+            // @ts-ignore
+            await dispatch(loginUser({ email, password })).unwrap();
+            router.push('/');
+        } catch (err) {
+            console.error('Failed to login:', err);
+        }
     };
 
     return (
