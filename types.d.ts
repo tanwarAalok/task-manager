@@ -2,7 +2,7 @@ interface Board{
     columns: Map<TypedColumns, Column>
 }
 
-export type TypedColumns = "todos" | "inProgress" | "underReview" | "finished"
+export type TypedColumns = "todo" | "inprogress" | "underreview" | "finished"
 type Priority = "low" | "medium" | "urgent"
 
 interface Column {

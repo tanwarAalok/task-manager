@@ -1,44 +1,67 @@
-import {DragDropContext, Droppable, DropResult, OnDragEndResponder} from "react-beautiful-dnd";
-import {useState} from "react";
+'use client'
+
 import TaskColumn from "@/components/TaskColumn";
-import {Task} from "@/types";
+import {Board, Task, TypedColumns} from "@/types";
+import {DragDropContext, DropResult} from "@hello-pangea/dnd";
+import {useState} from "react";
+import {mockBoard} from "@/data/mockData";
 
+export default function TaskDraggableZone() {
 
-type Props = {
-    [key in string]: Task[]
-}
-
-export default function TaskDraggableZone({todos, inProgress, underReview, finished}: Props) {
+    const [tasksMap, setTasksMap] = useState<Board>(mockBoard);
 
     const handleOnDragEnd = (result: DropResult) => {
-        const {destination, source, type } = result;
+        const {destination, source} = result;
 
-        console.log(destination, source, type)
-    }
+        if (!destination) return;
+
+        const sourceColumn = tasksMap.columns.get(source.droppableId as TypedColumns);
+        const destinationColumn = tasksMap.columns.get(destination.droppableId as TypedColumns);
+
+        if (!sourceColumn || !destinationColumn) return;
+
+        const sourceTasks = [...sourceColumn.tasks];
+        const [movedTask] = sourceTasks.splice(source.index, 1);
+
+        if (source.droppableId === destination.droppableId) {
+            sourceTasks.splice(destination.index, 0, movedTask);
+            setTasksMap({
+                ...tasksMap,
+                columns: new Map(tasksMap.columns.set(source.droppableId as TypedColumns, {
+                    ...sourceColumn,
+                    tasks: sourceTasks
+                }))
+            });
+        } else {
+            const destinationTasks = [...destinationColumn.tasks];
+            destinationTasks.splice(destination.index, 0, movedTask);
+
+            setTasksMap({
+                ...tasksMap,
+                columns: new Map(tasksMap.columns
+                    .set(source.droppableId as TypedColumns, {
+                        ...sourceColumn,
+                        tasks: sourceTasks
+                    })
+                    .set(destination.droppableId as TypedColumns, {
+                        ...destinationColumn,
+                        tasks: destinationTasks
+                    })
+                )
+            });
+        }
+    };
 
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white p-4">
-                <TaskColumn
-                    id="todos"
-                    tasks={todos}
-                    sectionTitle="To do"
-                />
-                <TaskColumn
-                    tasks={inProgress}
-                    sectionTitle="In progress"
-                    id="inProgress"
-                />
-                <TaskColumn
-                    tasks={underReview}
-                    sectionTitle="Under review"
-                    id="underReview"
-                />
-                <TaskColumn
-                    tasks={finished}
-                    sectionTitle="Finished"
-                    id="finished"
-                />
+                {Array.from(tasksMap.columns.entries()).map(([id, column]) => (
+                    <TaskColumn
+                        key={id}
+                        id={id}
+                        tasks={column.tasks}
+                    />
+                ))}
             </div>
         </DragDropContext>
     )

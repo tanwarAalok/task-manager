@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
 import {Task} from "@/types";
-import {DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps} from "react-beautiful-dnd";
+import {DraggableProvidedDraggableProps, DraggableProvidedDragHandleProps} from "@hello-pangea/dnd";
 
 type Props =  {
     task: Task;

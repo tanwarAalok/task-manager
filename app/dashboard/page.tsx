@@ -1,103 +1,10 @@
-'use client'
-
 import DashboardLayout from "@/components/DashboardLayout";
 import {topCardsData} from "@/data/dashboardTopCardData";
 import DashboardTopCards from "@/components/DashboardTopCards";
-import {useState} from "react";
 import TaskDraggableZone from "@/components/TaskDraggableZone";
-import {Task} from "@/types";
 
-const todoTasks: Task[] = [
-    {
-        id: 'todo-1',
-        title: 'Design new landing page',
-        description: 'Create a new design for the upcoming product launch.',
-        priority: 'low',
-        status: 'todos',
-        deadline: new Date('2024-08-10'),
-        createdAt: new Date('2024-07-23'),
-    },
-    {
-        id: 'todo-2',
-        title: 'Fix authentication bugs',
-        description: 'Resolve login and signup issues reported by users.',
-        priority: 'medium',
-        status: 'todos',
-        deadline: new Date('2024-08-05'),
-        createdAt: new Date('2024-07-22'),
-    },
-];
-
-const inProgressTasks: Task[] = [
-    {
-        id: 'inprogress-1',
-        title: 'Update user profile page',
-        description: 'Add new fields and validation to the user profile page.',
-        priority: 'urgent',
-        status: 'inProgress',
-        deadline: new Date('2024-08-15'),
-        createdAt: new Date('2024-07-20'),
-    },
-    {
-        id: 'inprogress-2',
-        title: 'Write unit tests',
-        description: 'Ensure code coverage is above 80% for the new features.',
-        priority: 'urgent',
-        status: 'inProgress',
-        deadline: new Date('2024-08-12'),
-        createdAt: new Date('2024-07-21'),
-    },
-];
-
-const underReviewTasks: Task[] = [
-    {
-        id: 'underreview-1',
-        title: 'Review PR #42',
-        description: 'Check the code and provide feedback on pull request #42.',
-        priority: 'urgent',
-        status: 'underReview',
-        deadline: new Date('2024-08-08'),
-        createdAt: new Date('2024-07-19'),
-    },
-    {
-        id: 'underreview-2',
-        title: 'Test new login flow',
-        description: 'Verify the new login flow on sprioritying before release.',
-        priority: 'urgent',
-        status: 'underReview',
-        deadline: new Date('2024-08-09'),
-        createdAt: new Date('2024-07-18'),
-    },
-];
-
-const finishedTasks: Task[] = [
-    {
-        id: 'finished-1',
-        title: 'Deploy to production',
-        description: 'Deploy the latest release to the production environment.',
-        priority: 'low',
-        status: 'finished',
-        deadline: new Date('2024-07-25'),
-        createdAt: new Date('2024-07-17'),
-    },
-    {
-        id: 'finished-2',
-        title: 'Update documentation',
-        description: 'Update the user guide and API documentation.',
-        priority: 'urgent',
-        status: 'finished',
-        deadline: new Date('2024-07-24'),
-        createdAt: new Date('2024-07-16'),
-    },
-];
 
 export default function Dashboard(){
-    const [tasks, setTasks] = useState({
-        todo: todoTasks,
-        inProgress: inProgressTasks,
-        underReview: underReviewTasks,
-        finished: finishedTasks,
-    });
 
     return (
         <DashboardLayout>
@@ -158,13 +65,7 @@ export default function Dashboard(){
                     </div>
                 </div>
 
-                <TaskDraggableZone
-                    todos={todoTasks}
-                    inProgress={inProgressTasks}
-                    underReview={underReviewTasks}
-                    finished={finishedTasks}
-                />
-
+                <TaskDraggableZone />
             </div>
         </DashboardLayout>
     )

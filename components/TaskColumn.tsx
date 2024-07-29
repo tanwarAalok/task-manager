@@ -4,22 +4,28 @@ import {
     DroppableProvided,
     DroppableStateSnapshot,
     DraggableProvided,
-} from 'react-beautiful-dnd';
+} from "@hello-pangea/dnd";
 import TaskCard from './TaskCard';
 import {Task, TypedColumns} from "@/types";
 
 type Props = {
     id: TypedColumns
     tasks: Task[]
-    sectionTitle: string
 }
 
-export default function TaskColumn({id, tasks, sectionTitle}: Props) {
+const idToTitle: {[key in TypedColumns]: string} = {
+    "todo": "To do",
+    "inprogress": "In progress",
+    "underreview": "Under Review",
+    "finished": "Finished"
+}
+
+export default function TaskColumn({id, tasks}: Props) {
 
     return (
             <div>
                 <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold">{sectionTitle}</h3>
+                    <h3 className="text-lg font-semibold">{idToTitle[id]}</h3>
                     <button>
                         <img src="/hamberger.svg" alt="hamberger"/>
                     </button>
