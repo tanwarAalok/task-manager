@@ -1,5 +1,6 @@
 import {logout} from "@/redux/authSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
 
 type SidebarProps = {
     onAddNewTask: () => void;
@@ -8,6 +9,7 @@ type SidebarProps = {
 
 export default function Sidebar({ onAddNewTask }: SidebarProps) {
     const dispatch = useDispatch();
+    const {user} = useSelector((state: RootState) => state.auth)
     const handleLogout = () => {
         dispatch(logout())
     }
@@ -17,7 +19,7 @@ export default function Sidebar({ onAddNewTask }: SidebarProps) {
             {/* Avatar and Name */}
             <div className="flex items-center mb-6">
                 <img src="/avatar.svg" alt="avatar" className="w-12 h-12 mr-4 rounded-lg" />
-                <h2 className="text-[20px] font-semibold">Joe Gardner</h2>
+                <h2 className="text-[20px] font-semibold">{user!.fullname}</h2>
             </div>
 
             {/*/!* Icons and Logout Button *!/*/}

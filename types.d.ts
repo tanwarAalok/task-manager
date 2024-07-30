@@ -1,5 +1,5 @@
 interface Board{
-    columns: Map<TypedColumns, Column>
+    columns: Record<TypedColumns, Column>
 }
 
 export type TypedColumns = "todo" | "inprogress" | "underreview" | "finished"
@@ -11,13 +11,21 @@ interface Column {
 }
 
 export interface Task {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     status: TypedColumns;
     priority: Priority | null;
     deadline: Date;
     createdAt: Date;
+}
+
+export interface TaskBody {
+    title: string;
+    description: string;
+    status: TypedColumns;
+    priority: Priority | null;
+    deadline: Date;
 }
 
 export interface NewTask {
@@ -31,7 +39,7 @@ export interface NewTask {
 }
 
 export interface User {
-    id: string;
+    _id: string;
     fullname: string;
     email: string;
 }

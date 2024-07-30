@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {NewTask, Task, TypedColumns} from '@/types';
+import { NewTask, Task, TypedColumns } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface TaskState {
-    tasks: Map<string, Task>;
+    tasks: Record<string, Task>; // Use Record<string, Task> instead of Map
     isModalOpen: boolean;
     currentTask: Task | null | NewTask;
 }
 
 const initialState: TaskState = {
-    tasks: new Map(),
+    tasks: {}, // Initialize as an empty object
     isModalOpen: false,
     currentTask: null,
 };
@@ -20,16 +20,16 @@ const taskSlice = createSlice({
     reducers: {
         addTask: (state, action: PayloadAction<Task>) => {
             const newTask = action.payload;
-            state.tasks.set(newTask.id, newTask);
+            state.tasks[newTask._id] = newTask; // Use object property assignment
         },
         updateTask: (state, action: PayloadAction<Task>) => {
             const updatedTask = action.payload;
-            if (state.tasks.has(updatedTask.id)) {
-                state.tasks.set(updatedTask.id, updatedTask);
+            if (state.tasks[updatedTask._id]) {
+                state.tasks[updatedTask._id] = updatedTask; // Use object property assignment
             }
         },
         deleteTask: (state, action: PayloadAction<string>) => {
-            state.tasks.delete(action.payload);
+            delete state.tasks[action.payload]; // Use delete operator
         },
         openExistingTaskModal: (state, action: PayloadAction<Task | null>) => {
             state.currentTask = action.payload;

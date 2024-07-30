@@ -20,7 +20,7 @@ export default function TaskCard ({ task, index, innerRef, draggableProps, dragH
                 <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded">{task.priority}</span>
             </div>
             <div className="mt-4 text-sm text-gray-500">
-                <p>Due: {task.deadline.toLocaleDateString()}</p>
+                <p>Due: {task.deadline.toString()}</p>
                 <p>Created: {formatDistanceToNow(task.createdAt)} ago</p>
             </div>
         </div>

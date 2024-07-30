@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk, AsyncThunk} from '@reduxjs/toolkit';
-import { login, signup } from '@/api/auth';
-import {AsyncThunkConfig, AuthResponse, AuthState} from "@/types";
-
+import { login, signup } from '@/api/apiFetcher';
+import {AsyncThunkConfig, AuthState} from "@/types";
 
 const initialState: AuthState = {
     user: null,

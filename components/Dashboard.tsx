@@ -4,22 +4,29 @@ import DashboardLayout from "@/components/DashboardLayout";
 import {topCardsData} from "@/utils/dashboardTopCardData";
 import DashboardTopCards from "@/components/DashboardTopCards";
 import TaskDraggableZone from "@/components/TaskDraggableZone";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {openNewTaskModal} from "@/redux/taskSlice";
+import {RootState} from "@/redux/store";
 
 
 export default function Dashboard(){
     const dispatch = useDispatch();
-
+    const {user} = useSelector((state: RootState) => state.auth)
     const handleOpenModal = () => {
         dispatch(openNewTaskModal(null))
     }
+
+    const getFirstName = (fullname: string): string => {
+        const names = fullname.trim().split(' ');
+        return names.length > 0 ? names[0] : '';
+    };
+
 
     return (
         <DashboardLayout>
             <div className="space-y-6">
                 <header className="flex justify-between items-center">
-                    <h1 className="text-5xl font-bold">Good Morning, User</h1>
+                    <h1 className="text-5xl font-bold">Good Morning, {getFirstName(user!.fullname)}</h1>
                     <button
                         className="flex items-center">
                         Help & feedback
@@ -74,7 +81,7 @@ export default function Dashboard(){
                     </div>
                 </div>
 
-                <TaskDraggableZone />
+                <TaskDraggableZone userId={user!._id}/>
             </div>
         </DashboardLayout>
     )

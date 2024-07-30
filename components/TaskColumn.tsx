@@ -44,7 +44,7 @@ export default function TaskColumn({id, tasks}: Props) {
                     {(provided: DroppableProvided , snapshot: DroppableStateSnapshot) => (
                         <div {...provided.droppableProps} ref={provided.innerRef} className={`flex flex-col gap-4 ${snapshot.isDraggingOver ? "bg-gray-600" : "bg-transparent"}`}>
                             {tasks.map((task: Task, index: number) => (
-                                <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+                                <Draggable key={task._id} draggableId={task._id.toString()} index={index}>
                                     {(provided: DraggableProvided) => (
                                         <TaskCard
                                             task={task}

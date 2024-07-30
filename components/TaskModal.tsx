@@ -62,7 +62,7 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
                         </button>
                     </div>
                     <div className="flex space-x-4">
-                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
+                        <button onClick={handleSave} className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Save
                             <img src="/shareIcon.svg" alt="shareIcon" className="ml-2"/>
                         </button>
