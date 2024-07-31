@@ -1,8 +1,9 @@
 'use client'
 
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { Board, TypedColumns } from '@/types';
+import { Board } from '@/types';
 import {fetchUserBoard, updateTaskStatus} from "@/api/apiFetcher";
+import {TypedColumns} from "@/utils/enums";
 
 interface BoardState {
     data: Board | null;
