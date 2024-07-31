@@ -42,12 +42,12 @@ export default function TaskModal({ onClose, onSave, onDelete }: TaskModalProps)
     const handleSave = () => {
         const newTask = {
             title,
-            ...(description.length > 0 && { priority }),
-            description,
+            ...(description && { description }),
+            ...(priority && { priority }),
             status,
-            ...(priority !== null && { priority }),
             deadline,
         };
+
 
         if(validateTaskBody(newTask) && currentTask){
             if ("_id" in currentTask) {
