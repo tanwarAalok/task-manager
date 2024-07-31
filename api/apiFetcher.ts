@@ -57,3 +57,14 @@ export const updateTaskStatus = async (taskId: string, newStatus: string) => {
     const response = await axios.put(`${API_URL}/api/task/update/status/${taskId}`, {status: newStatus}, config);
     return response.data;
 }
+
+export const deleteTask = async (taskId: string) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    };
+    const response = await axios.delete(`${API_URL}/api/task/delete/${taskId}`, config);
+    return response.data;
+}

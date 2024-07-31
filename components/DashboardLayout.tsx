@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import {closeTaskModal, openNewTaskModal} from "@/redux/taskSlice";
 import {TaskBody} from "@/types";
-import {createNewTask, updateTask} from "@/api/apiFetcher";
+import {createNewTask, deleteTask, updateTask} from "@/api/apiFetcher";
 import {fetchBoard} from "@/redux/boardSlice";
 
 interface DashboardLayoutProps {
@@ -38,6 +38,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         }
     }
 
+    const handleTaskDelete = async (taskId: string) => {
+        try{
+            await deleteTask(taskId);
+            // @ts-ignore
+            dispatch(fetchBoard(user!._id))
+            dispatch(closeTaskModal())
+        }catch (err){
+            console.log(err)
+        }
+    }
+
     return (
         <div className="flex">
             <Sidebar onAddNewTask={handleOpenModal}/>
@@ -47,7 +58,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
             {/* Task Modal */}
             {isModalOpen && (
-                <TaskModal onClose={handleCloseModal} onSave={handleSaveTask} />
+                <TaskModal onClose={handleCloseModal} onSave={handleSaveTask} onDelete={handleTaskDelete} />
             )}
         </div>
     );

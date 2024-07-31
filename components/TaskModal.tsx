@@ -13,9 +13,10 @@ import {validateTaskBody} from "@/utils/helperFunctions";
 type TaskModalProps = {
     onClose: () => void;
     onSave: (task: TaskBody, taskId: string) => void;
+    onDelete: (taskId: string) => void;
 };
 
-export default function TaskModal({ onClose, onSave }: TaskModalProps) {
+export default function TaskModal({ onClose, onSave, onDelete }: TaskModalProps) {
     const { currentTask, isNewTask } = useSelector((state: RootState) => state.task);
 
     // State for local management
@@ -58,6 +59,12 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
         }
     };
 
+    const handleDelete = () => {
+        if(currentTask && "_id" in currentTask){
+            onDelete(currentTask._id);
+        }
+    }
+
     return (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
             <div className={`bg-white p-6 rounded-lg shadow-lg ${isFullscreen ? 'w-full h-full' : 'w-3/4 max-w-3xl'}`}>
@@ -75,7 +82,7 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
                         <button onClick={handleSave} className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             {isNewTask ? 'Create' : 'Save'}
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
+                        <button onClick={handleDelete} className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Delete
                         </button>
                     </div>
