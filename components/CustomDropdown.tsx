@@ -9,7 +9,7 @@ type DropdownOption = {
 
 type CustomDropdownProps = {
     options: DropdownOption[];
-    value: string;
+    value: string | null;
     onChange: (value: string) => void;
     label: string;
     icon: string;

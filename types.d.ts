@@ -1,40 +1,38 @@
+import {Priority, TypedColumns} from "@/utils/enums";
+
 interface Board{
     columns: Record<TypedColumns, Column>
 }
-
-export type TypedColumns = "todo" | "inprogress" | "underreview" | "finished"
-type Priority = "low" | "medium" | "urgent"
 
 interface Column {
     id: TypedColumns
     tasks: Tasks[]
 }
 
-export interface Task {
+interface Task {
     _id: string;
     title: string;
-    description: string;
+    description?: string;
     status: TypedColumns;
-    priority: Priority | null;
+    priority?: Priority;
     deadline: Date;
     createdAt: Date;
 }
 
-export interface TaskBody {
+interface TaskBody {
     title: string;
-    description: string;
+    description?: string;
     status: TypedColumns;
-    priority: Priority | null;
+    priority?: Priority;
     deadline: Date;
 }
 
 export interface NewTask {
-    id: string;
     title: string;
     description: string;
-    status: TypedColumns | null;
-    priority: Priority | null;
-    deadline: Date | null;
+    status: TypedColumns | undefined;
+    priority: Priority | undefined;
+    deadline: Date | undefined;
     createdAt: Date;
 }
 

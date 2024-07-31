@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import {closeTaskModal, openNewTaskModal} from "@/redux/taskSlice";
 import {TaskBody} from "@/types";
-import {createNewTask} from "@/api/apiFetcher";
+import {createNewTask, updateTask} from "@/api/apiFetcher";
 import {fetchBoard} from "@/redux/boardSlice";
 
 interface DashboardLayoutProps {
@@ -16,7 +16,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const dispatch = useDispatch();
-    const {isModalOpen} = useSelector((state: RootState) => state.task);
+    const {isModalOpen, isNewTask} = useSelector((state: RootState) => state.task);
     const {user} = useSelector((state: RootState) => state.auth);
 
     const handleCloseModal = () => {
@@ -27,9 +27,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         dispatch(openNewTaskModal(null))
     }
 
-    const handleSaveTask = async (newTask: TaskBody) => {
+    const handleSaveTask = async (newTask: TaskBody, taskId: string = '') => {
         try{
-            await createNewTask(newTask, user!._id);
+            isNewTask ? await createNewTask(newTask, user!._id) : await updateTask(newTask, taskId);
             // @ts-ignore
             dispatch(fetchBoard(user!._id))
             dispatch(closeTaskModal())

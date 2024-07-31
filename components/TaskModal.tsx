@@ -5,23 +5,24 @@ import CustomDropdown from "@/components/CustomDropdown";
 import {priorityOptions, statusOptions} from "@/utils/selectOptions";
 import CustomTextInput from "@/components/CustomTextInput";
 import CustomDatePicker from "@/components/CustomDatePicker";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
+import {NewTask, Task, TaskBody} from "@/types";
+import {validateTaskBody} from "@/utils/helperFunctions";
 
 type TaskModalProps = {
     onClose: () => void;
-    onSave: (task: any) => void;
+    onSave: (task: TaskBody, taskId: string) => void;
 };
 
 export default function TaskModal({ onClose, onSave }: TaskModalProps) {
-    const dispatch = useDispatch();
-    const { currentTask, isModalOpen } = useSelector((state: RootState) => state.task);
+    const { currentTask, isNewTask } = useSelector((state: RootState) => state.task);
 
     // State for local management
     const [title, setTitle] = useState('');
-    const [status, setStatus] = useState<string>('');
-    const [priority, setPriority] = useState<string>('');
-    const [deadline, setDeadline] = useState<string>('');
+    const [status, setStatus] = useState<string | null>(null);
+    const [priority, setPriority] = useState<string | null>(null);
+    const [deadline, setDeadline] = useState<string | null>(null);
     const [description, setDescription] = useState<string>('');
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
@@ -30,7 +31,7 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
             setTitle(currentTask.title || '');
             setStatus(currentTask.status || '');
             setPriority(currentTask.priority || '');
-            setDeadline(currentTask.deadline ? currentTask.deadline.toISOString().split('T')[0] : '');
+            setDeadline(currentTask.deadline ? new Date(currentTask.deadline).toISOString() : null);
             setDescription(currentTask.description || '');
         }
     }, [currentTask]);
@@ -40,12 +41,21 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
     const handleSave = () => {
         const newTask = {
             title,
-            status,
-            priority,
-            deadline,
+            ...(description.length > 0 && { priority }),
             description,
+            status,
+            ...(priority !== null && { priority }),
+            deadline,
         };
-        onSave(newTask);
+
+        if(validateTaskBody(newTask) && currentTask){
+            if ("_id" in currentTask) {
+                onSave(newTask, currentTask._id);
+            }else onSave(newTask, '');
+        }
+        else {
+            console.error('Invalid task properties');
+        }
     };
 
     return (
@@ -63,12 +73,10 @@ export default function TaskModal({ onClose, onSave }: TaskModalProps) {
                     </div>
                     <div className="flex space-x-4">
                         <button onClick={handleSave} className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
-                            Save
-                            <img src="/shareIcon.svg" alt="shareIcon" className="ml-2"/>
+                            {isNewTask ? 'Create' : 'Save'}
                         </button>
                         <button className="flex items-center px-4 py-2 text-[#797979] bg-[#F4F4F4] rounded">
                             Delete
-                            <img src="/favoriteIcon.svg" alt="favoriteIcon" className="ml-2"/>
                         </button>
                     </div>
                 </div>

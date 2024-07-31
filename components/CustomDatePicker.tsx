@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type CustomDatePickerProps = {
-    value: string;
+    value: null | string;
     onChange: (value: string) => void;
     label: string;
     icon: string;
@@ -18,6 +18,11 @@ export default function CustomDatePicker({
                                              icon,
                                          }: CustomDatePickerProps) {
     const [startDate, setStartDate] = useState<Date | null>(value ? new Date(value) : null);
+
+
+    useEffect(() => {
+        if(value) setStartDate(new Date(value));
+    }, [value]);
 
     const handleChange = (date: Date | null) => {
         setStartDate(date);

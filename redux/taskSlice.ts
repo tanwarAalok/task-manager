@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NewTask, Task, TypedColumns } from '@/types';
-import { v4 as uuidv4 } from 'uuid';
+import { NewTask, Task } from '@/types';
+import {TypedColumns} from "@/utils/enums";
 
 interface TaskState {
     tasks: Record<string, Task>; // Use Record<string, Task> instead of Map
     isModalOpen: boolean;
     currentTask: Task | null | NewTask;
+    isNewTask: boolean;
 }
 
 const initialState: TaskState = {
     tasks: {}, // Initialize as an empty object
     isModalOpen: false,
     currentTask: null,
+    isNewTask: false,
 };
 
 const taskSlice = createSlice({
@@ -34,6 +36,7 @@ const taskSlice = createSlice({
         openExistingTaskModal: (state, action: PayloadAction<Task | null>) => {
             state.currentTask = action.payload;
             state.isModalOpen = true;
+            state.isNewTask = false;
         },
         closeTaskModal: (state) => {
             state.currentTask = null;
@@ -41,15 +44,15 @@ const taskSlice = createSlice({
         },
         openNewTaskModal: (state, action: PayloadAction<TypedColumns | null>) => {
             state.currentTask = {
-                id: uuidv4(),
                 title: '',
                 description: '',
-                status: action.payload ?? null,
-                priority: null,
-                deadline: new Date(),
+                status: action.payload ?? undefined,
+                priority: undefined,
+                deadline: undefined,
                 createdAt: new Date(),
             };
             state.isModalOpen = true;
+            state.isNewTask = true;
         },
     },
 });

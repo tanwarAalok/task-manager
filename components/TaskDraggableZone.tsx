@@ -1,13 +1,13 @@
 'use client'
 
 import TaskColumn from "@/components/TaskColumn";
-import {TypedColumns} from "@/types";
 import {DragDropContext, DropResult} from "@hello-pangea/dnd";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/redux/store";
 import {fetchBoard, moveTask} from "@/redux/boardSlice";
 import {useEffect} from "react";
 import {updateTaskStatus} from "@/api/apiFetcher";
+import {TypedColumns} from "@/utils/enums";
 
 export default function TaskDraggableZone({ userId }: { userId: string }) {
 
@@ -43,7 +43,6 @@ export default function TaskDraggableZone({ userId }: { userId: string }) {
         }));
 
         try {
-            console.log(draggableId, destination.droppableId);
             await updateTaskStatus(draggableId, destination.droppableId);
         } catch (error) {
             console.log(error)

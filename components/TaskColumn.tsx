@@ -8,9 +8,10 @@ import {
     DraggableProvided,
 } from "@hello-pangea/dnd";
 import TaskCard from './TaskCard';
-import {Task, TypedColumns} from "@/types";
+import {Task} from "@/types";
 import {useDispatch} from "react-redux";
-import {openNewTaskModal} from "@/redux/taskSlice";
+import { openNewTaskModal } from "@/redux/taskSlice";
+import {TypedColumns} from "@/utils/enums";
 
 type Props = {
     id: TypedColumns
@@ -48,7 +49,6 @@ export default function TaskColumn({id, tasks}: Props) {
                                     {(provided: DraggableProvided) => (
                                         <TaskCard
                                             task={task}
-                                            index={index}
                                             innerRef={provided.innerRef}
                                             draggableProps={provided.draggableProps}
                                             dragHandleProps={provided.dragHandleProps}

@@ -36,6 +36,17 @@ export const createNewTask = async (task: TaskBody, userId: string) => {
     return response.data;
 }
 
+export const updateTask = async (newTask: TaskBody, taskId: string) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    };
+    const response = await axios.put(`${API_URL}/api/task/update/${taskId}`, newTask, config);
+    return response.data;
+}
+
 export const updateTaskStatus = async (taskId: string, newStatus: string) => {
     const token = localStorage.getItem('token');
     const config = {
